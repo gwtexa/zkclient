@@ -1,8 +1,24 @@
 package zk.node;
 
+import java.util.Map;
+
 public interface ZkFolderListener {
 
-	public void childPresent(String path, byte[] data);
+	/**
+	 * 
+	 * Called when node first time fetched (on connect) or when children are created. 
+	 * Note: It is not called when children are updated!
+	 * 
+	 * @param path - ZkFolder path
+	 * @param childrenMap is znode key => znode value
+	 */
+	public void childrenPresent(String path, Map<String, byte[]> childrenMap);
 	
-	public void childDeleted(String path);
+	/**
+	 * 
+	 * @param path - ZkFolder path
+	 * @param children
+	 */
+	public void childrenDeleted(String path, String[] children);
+	
 }

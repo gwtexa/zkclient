@@ -13,6 +13,11 @@ import org.apache.zookeeper.Watcher.Event.KeeperState;
  * 
  * This is the ZooKeeper wrapper. 
  * The central client object that aggregates ZooKeeper and DefaultWatcher and provides utility methods like synchronous connect
+ * 
+ * With ZkFolder and ZkNode it simplifies ZK interface for 'listening only' clients. 
+ * For example when they want to be notified with full configuration at start and notified later with    
+ * Configuration is 
+ *  
  *   
  */
 public class ZkClient {
@@ -23,6 +28,10 @@ public class ZkClient {
 	
 	public void registerNode(ZkNode zkNode) {
 		defaultWatcher.registerNode(zkNode);
+	}
+	
+	public ZooKeeper getZooKeeper() {
+		return zk;
 	}
 	
     // To block any operation until ZooKeeper is connected. It's initialized
@@ -69,16 +78,17 @@ public class ZkClient {
 		 */
 		@Override
 		public void process(WatchedEvent event) {
-			// TODO Auto-generated method stub
-			//zk.exists(path, watch)
-	    	// release lock if ZooKeeper is connected.
-    		if (event.getState() == KeeperState.SyncConnected) {
-    		    connectedSignal.countDown();
-    		}
-			
-    		//dispatch to watched nodes based on path
-    		watchedNodes.get("").process(event);
-    		
+			if (event.getType() == Event.EventType.None) {
+	    		if (event.getState() == KeeperState.SyncConnected) {
+	    			// release lock if ZooKeeper is connected.
+	    		    connectedSignal.countDown();
+	    		} else if (event.getState() == KeeperState.Expired) {
+	    			//TODO reconnect
+	    		}
+			} else {
+				//dispatch to watched nodes based on path
+				watchedNodes.get(event.getPath()).process(event);
+			}
 		}
 		
 		
