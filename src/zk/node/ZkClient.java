@@ -45,7 +45,7 @@ public class ZkClient {
     public void connect(String hosts) throws IOException, InterruptedException {
 		zk = new ZooKeeper(
 		            hosts, // ZooKeeper service hosts
-		            5000,  // Session timeout in milliseconds
+		            10000,  // Session timeout in milliseconds
 		            defaultWatcher
 		);
 		connectedSignal.await();
@@ -82,8 +82,10 @@ public class ZkClient {
 	    		if (event.getState() == KeeperState.SyncConnected) {
 	    			// release lock if ZooKeeper is connected.
 	    		    connectedSignal.countDown();
-	    		} else if (event.getState() == KeeperState.Expired) {
-	    			//TODO reconnect
+//	    		} else if (event.getState() == KeeperState.Expired) {
+//	    			//TODO reconnect
+	    		} else {
+	    			new RuntimeException("Client not connected").printStackTrace();
 	    		}
 			} else {
 				//dispatch to watched nodes based on path

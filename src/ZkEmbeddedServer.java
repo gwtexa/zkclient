@@ -1,36 +1,51 @@
 import java.io.IOException;
 
+import org.apache.zookeeper.server.DatadirCleanupManager;
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
+import org.apache.zookeeper.server.quorum.QuorumPeerConfig.ConfigException;
+import org.apache.zookeeper.server.quorum.QuorumPeerMain;
 
 
-public class ZkEmbeddedServer extends ZooKeeperServerMain {
+public class ZkEmbeddedServer extends QuorumPeerMain {
 
-	private final ServerConfig serverConfig;
+	private final QuorumPeerConfig config;
 	
-	public ZkEmbeddedServer(String cfgFile) {
-		QuorumPeerConfig quorumConfig = new QuorumPeerConfig();
-		try {
-			quorumConfig.parse(cfgFile);
-		} catch(Exception e) {
-		    throw new RuntimeException(e);
-		}
-		serverConfig = new ServerConfig();
-		serverConfig.readFrom(quorumConfig);
+	public ZkEmbeddedServer(String cfgFile) throws ConfigException {
+
+        config = new QuorumPeerConfig();
+        config.parse(cfgFile);
+
+
+		
+		
+//		initializeAndRun(new String[] {cfgFile});
+//		QuorumPeerConfig quorumConfig = new QuorumPeerConfig();
+//		try {
+//			quorumConfig.parse(cfgFile);
+//		} catch(Exception e) {
+//		    throw new RuntimeException(e);
+//		}
+//		serverConfig = new ServerConfig();
+//		serverConfig.readFrom(quorumConfig);
 	}
 	
 	public void start() {
 		try {
-			runFromConfig(serverConfig);
+	        // Start and schedule the the purge task
+	        DatadirCleanupManager purgeMgr = new DatadirCleanupManager(config
+	                .getDataDir(), config.getDataLogDir(), config
+	                .getSnapRetainCount(), config.getPurgeInterval());
+	        purgeMgr.start();
+
+	        runFromConfig(config);			
+			
 		} catch(IOException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}		
-	
-	public void shutdown() { 
-		super.shutdown();
-	}
 	
 	public static void updateZooCfg() {
 		//TODO dump /zoocfg znode into zoo.cfg file
@@ -40,6 +55,12 @@ public class ZkEmbeddedServer extends ZooKeeperServerMain {
 	public void createZkNodes() {
 		
 	}
+
+	public QuorumPeerConfig getConfig() {
+		return config;
+	}
+
+	
 	
 	
 }

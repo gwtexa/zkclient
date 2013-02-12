@@ -15,23 +15,39 @@ import zk.node.ZkNodeListener;
 
 public class ZkTest2 {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
+		try {
+			init();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void init() throws Exception {
 		
 		final ZkEmbeddedServer s = new ZkEmbeddedServer("zoo.cfg");
 		
 		System.out.println("Starting ZkEmbeddedServer");
 		new Thread() {
-			public void run() { s.start(); };
+			public void run() {
+				try {
+					s.start();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			};
 		}.start();
 		
-		Thread.sleep(1000);
+		Thread.sleep(20000);
 		
 		
 		
 		//Sample client API
 		System.out.println("Starting ZkClient");
 		ZkClient zkClient = new ZkClient();
-		zkClient.connect("localhost");
+		//zkClient.connect("localhost");
+		zkClient.connect(s.getConfig().getClientPortAddress().getHostName() + ":" + s.getConfig().getClientPortAddress().getPort());
+		
 		
 		ZkNode zkfile1 = new ZkNode(zkClient, "/path/to/zkfile", new ZkNodeListener() {
 			@Override
@@ -54,20 +70,24 @@ public class ZkTest2 {
 				System.out.println("childrenPresent: " + childrenMap);
 			}
 		};
+		
+		System.out.println("Before creating ZkFolder");
+		
+		new ZkFolder(zkClient, "/path", null).createIfNotExists("whatever".getBytes());
+		new ZkFolder(zkClient, "/path/to", null).createIfNotExists("whatever".getBytes());
 		ZkFolder zkfolder1 = new ZkFolder(zkClient, "/path/to/zkfolder", zkFolderListener);
+		System.out.println("ZkFolder handler created");
+		zkfolder1.createIfNotExists("folder content".getBytes());
 		
 		System.out.println("Registered ZkListeners");
 		
-		Thread.sleep(5000);
+		for (int i = 0; i < 5; i++) { 
+			Thread.sleep(5000);		
+			String rand = String.valueOf(System.currentTimeMillis() % 100);		
+			zkfolder1.createChildIfNotExists(rand, String.valueOf(i).getBytes());
+		}
 		
-		//zkfolder1.createChild("x", "lalala".getBytes());
-		zkfolder1.deleteChild("y");
-		
-		//zkClient.getZooKeeper().create("/path/to/zkfolder/y", "Data created by client itself".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-		
-		//All callback and watcher events in single thread so one instance of adapter is enough
-		//ZkCallbackToWatcherAdapter adapter = new ZkCallbackToWatcherAdapter(defaultWatcher);
-		//ZkFile constructor must call async exists, 
+		Thread.sleep(3600000);
 	}
 	
 }

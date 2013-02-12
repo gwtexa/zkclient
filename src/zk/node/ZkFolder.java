@@ -128,11 +128,35 @@ public class ZkFolder extends ZkNode implements Watcher, ChildrenCallback {
 		zkClient.getZooKeeper().create(path + "/" + childName, b, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 	}
 	
+	public boolean createChildIfNotExists(String childName, byte[] b) {
+		boolean created = false;
+		try {
+			zkClient.getZooKeeper().create(path + "/" + childName, b, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+			created = true;
+		} catch (KeeperException ke) {
+			//TODO log event
+		} catch (InterruptedException ie) {
+			ie.printStackTrace();
+		}
+		return created;
+	}
+	
 	public void deleteChild(String childName) throws KeeperException, InterruptedException {
 		zkClient.getZooKeeper().delete(path + "/" + childName, -1);
 	}
 	
-
+	public boolean deleteChildIfExists(String childName) {
+		boolean deleted = false;
+		try {
+			zkClient.getZooKeeper().delete(path + "/" + childName, -1);
+			deleted = true;
+		} catch (KeeperException ke) {
+			//TODO log event
+		} catch (InterruptedException ie) {
+			ie.printStackTrace();
+		}
+		return deleted;
+	}
 	
 	
 }

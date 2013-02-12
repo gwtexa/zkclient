@@ -86,10 +86,37 @@ public class ZkNode implements Watcher, DataCallback {
 	public void create(byte[] b) throws KeeperException, InterruptedException {
 		zkClient.getZooKeeper().create(path, b, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 	}
+
+	public boolean createIfNotExists(byte[] b) {
+		boolean created = false;
+		try {
+			zkClient.getZooKeeper().create(path, b, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+			created = true;
+		} catch (KeeperException ke) {
+			//TODO log event
+		} catch (InterruptedException ie) {
+			ie.printStackTrace();
+		}
+		return created;
+	}
 	
 	public void delete() throws KeeperException, InterruptedException {
 		zkClient.getZooKeeper().delete(path, -1);
 	}
+	
+	public boolean deleteIfExists() {
+		boolean deleted = false;
+		try {
+			zkClient.getZooKeeper().delete(path, -1);
+			deleted = true;
+		} catch (KeeperException ke) {
+			//TODO log event
+		} catch (InterruptedException ie) {
+			ie.printStackTrace();
+		}
+		return deleted;
+	}
+	
 	public void setData(byte[] b) throws KeeperException, InterruptedException {
 		zkClient.getZooKeeper().setData(path, b, -1);
 	}
