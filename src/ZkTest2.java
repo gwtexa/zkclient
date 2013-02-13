@@ -38,7 +38,7 @@ public class ZkTest2 {
 			};
 		}.start();
 		
-		Thread.sleep(20000);
+		Thread.sleep(10000);
 		
 		
 		
@@ -82,8 +82,8 @@ public class ZkTest2 {
 		System.out.println("Registered ZkListeners");
 		
 		for (int i = 0; i < 5; i++) { 
-			Thread.sleep(5000);		
-			String rand = String.valueOf(System.currentTimeMillis() % 100);		
+			Thread.sleep(4900);		
+			String rand = String.valueOf(System.currentTimeMillis() % 1000);		
 			zkfolder1.createChildIfNotExists(rand, String.valueOf(i).getBytes());
 		}
 		
