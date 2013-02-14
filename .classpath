@@ -6,5 +6,11 @@
 	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/zookeeper-3.4.5.jar"/>
+	<classpathentry kind="lib" path="lib/grizzly-servlet-webserver-1.9.8.jar" sourcepath="lib/grizzly-servlet-webserver-1.9.8-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-json-1.1.5.1.jar" sourcepath="lib/jersey-json-1.1.5.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-server-1.1.5.1.jar" sourcepath="lib/jersey-server-1.1.5.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/asm-commons-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/jsr311-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-core-1.1.5.1.jar" sourcepath="lib/jersey-core-1.1.5.1-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

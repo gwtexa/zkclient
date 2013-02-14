@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/repos/asf/!svn/ver/1091314/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/resources
+END
+KeeperExceptionMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/resources/KeeperExceptionMapper.java
+END
+ZErrorWriter.java
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/resources/ZErrorWriter.java
+END
+RuntimeExceptionMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/resources/RuntimeExceptionMapper.java
+END
+ZNodeResource.java
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/resources/ZNodeResource.java
+END
+JAXBContextResolver.java
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/resources/JAXBContextResolver.java
+END
+SessionsResource.java
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/repos/asf/!svn/ver/1091314/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/resources/SessionsResource.java
+END

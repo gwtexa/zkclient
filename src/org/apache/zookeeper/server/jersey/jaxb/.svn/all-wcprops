@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/jaxb
+END
+ZChildren.java
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/jaxb/ZChildren.java
+END
+ZError.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/jaxb/ZError.java
+END
+ZStat.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/jaxb/ZStat.java
+END
+ZPath.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/jaxb/ZPath.java
+END
+ZChildrenJSON.java
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/jaxb/ZChildrenJSON.java
+END
+ZSession.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/repos/asf/!svn/ver/1038827/zookeeper/trunk/src/contrib/rest/src/java/org/apache/zookeeper/server/jersey/jaxb/ZSession.java
+END
