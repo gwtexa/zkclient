@@ -39,14 +39,6 @@ public class RestCfg {
        cfg.load(io);
        extractEndpoints();
        extractCredentials();
-       //If endpoint not defined explicitely use local ZK client configuration
-       if (this.getEndpoints().size() == 0) {
-           Endpoint point = new Endpoint("/", this.getZooClientPortAddress() + ":" + this.getZooClientPort());
-           point.setCredentials("");
-           point.setZooKeeperAuthInfo("");
-           this.getEndpoints().add(point);
-       }
-       
    }
 
    private void extractCredentials() {
@@ -83,36 +75,9 @@ public class RestCfg {
            count++;
        }
    }
-   
-   
-   
-   public String formatEndpoints() {
-       StringBuilder result = new StringBuilder();
-       for (Endpoint e : this.getEndpoints()) {
-           String context = e.getContext();
-           if (context.charAt(context.length() - 1) != '/') {
-               context += "/";
-           }
-           result.append(String.format("Started %s - WADL: http://localhost:%d%sapplication.wadl",
-                   context, this.getPort(), context));
-       }
-       return result.toString();
-   }
-   
-   public int getZooClientPort() {
-       return Integer.parseInt(cfg.getProperty("clientPort", "2181"));
-   }
-   
-   public String getZooClientPortAddress() {
-       return cfg.getProperty("clientPortAddress", "127.0.0.1");
-   }
 
    public int getPort() {
        return Integer.parseInt(cfg.getProperty("rest.port", "9998"));
-   }
-   
-   public String getBindHost() {
-       return cfg.getProperty("rest.host", null);
    }
 
    public boolean useSSL() {

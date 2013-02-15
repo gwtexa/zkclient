@@ -18,4 +18,4 @@ secret.props
 secret.properties
 target/
 bin/
-
+.svn/

@@ -23,15 +23,13 @@ public class ZkTest2 {
 	}
 	
 	public static void init() throws Exception {
-		
+		String configFile = "zoo.cfg";
 
-	    ZkEmbeddedServer emb = startZkEmbeddedServer();
+	    ZkEmbeddedServer emb = startZkEmbeddedServer(configFile);
 		
-	    Thread.sleep(10000);
+	    Thread.sleep(5000);
 	    
-		
-	    
-	    RestMain restProxy = startZkRestProxy();
+	    RestMain restGateway = startZkRestGateway(configFile);
 	    
 	    
 	    
@@ -86,8 +84,8 @@ public class ZkTest2 {
 
 	
 	
-	public static ZkEmbeddedServer startZkEmbeddedServer() {
-        final ZkEmbeddedServer emb = new ZkEmbeddedServer("zoo.cfg");
+	public static ZkEmbeddedServer startZkEmbeddedServer(String configFile) {
+        final ZkEmbeddedServer emb = new ZkEmbeddedServer(configFile);
         
         System.out.println("Starting ZkEmbeddedServer");
         new Thread() {
@@ -104,9 +102,9 @@ public class ZkTest2 {
 
 	
 	
-	public static RestMain startZkRestProxy() {
+	public static RestMain startZkRestGateway(String configFile) {
 	    try {
-	        RestCfg cfg = new RestCfg("zkrest.properties");
+	        RestCfg cfg = new RestCfg(configFile);
 
 	        final RestMain main = new RestMain(cfg);
 	        main.start();
