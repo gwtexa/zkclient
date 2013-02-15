@@ -20,6 +20,7 @@ package org.apache.zookeeper.server.jersey;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -55,6 +56,9 @@ public class RestMain {
        boolean useSSL = cfg.useSSL();
        gws = new GrizzlyWebServer(cfg.getPort(), "/tmp/23cxv45345/2131xc2/", useSSL);
        // BUG: Grizzly needs a doc root if you are going to register multiple adapters
+       
+       //gluczywo: bind to localhost only
+       //gws.getSelectorThread().setAddress(InetAddress.getByName("localhost"));
 
        for (Endpoint e : cfg.getEndpoints()) {
            ZooKeeperService.mapContext(e.getContext(), e);

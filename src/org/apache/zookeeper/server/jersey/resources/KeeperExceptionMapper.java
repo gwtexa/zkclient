@@ -74,6 +74,10 @@ public class KeeperExceptionMapper implements ExceptionMapper<KeeperException> {
             status = Response.Status.CONFLICT;
             message = path + " not empty";
             break;
+        case CONNECTIONLOSS:
+            status = Response.Status.SERVICE_UNAVAILABLE;
+            message = path + " connection loss";
+            break;            
         default:
             status = Response.Status.fromStatusCode(502); // bad gateway
             message = "Error processing request for " + path
