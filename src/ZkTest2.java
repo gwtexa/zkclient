@@ -1,9 +1,8 @@
 import java.util.Arrays;
 import java.util.Map;
 
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.data.ACL;
+import org.apache.zookeeper.server.jersey.RestMain;
+import org.apache.zookeeper.server.jersey.cfg.RestCfg;
 
 import zk.node.ZkClient;
 import zk.node.ZkFolder;
@@ -25,28 +24,23 @@ public class ZkTest2 {
 	
 	public static void init() throws Exception {
 		
-		final ZkEmbeddedServer s = new ZkEmbeddedServer("zoo.cfg");
+
+	    ZkEmbeddedServer emb = startZkEmbeddedServer();
 		
-		System.out.println("Starting ZkEmbeddedServer");
-		new Thread() {
-			public void run() {
-				try {
-					s.start();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			};
-		}.start();
+	    Thread.sleep(10000);
+	    
 		
-		Thread.sleep(10000);
-		
-		
-		
+	    
+	    RestMain restProxy = startZkRestProxy();
+	    
+	    
+	    
+	    
 		//Sample client API
 		System.out.println("Starting ZkClient");
 		ZkClient zkClient = new ZkClient();
 		//zkClient.connect("localhost");
-		zkClient.connect(s.getConfig().getClientPortAddress().getHostName() + ":" + s.getConfig().getClientPortAddress().getPort());
+		zkClient.connect(emb.getConfig().getClientPortAddress().getHostName() + ":" + emb.getConfig().getClientPortAddress().getPort());
 		
 		
 		ZkNode zkfile1 = new ZkNode(zkClient, "/path/to/zkfile", new ZkNodeListener() {
@@ -89,5 +83,49 @@ public class ZkTest2 {
 		
 		Thread.sleep(3600000);
 	}
+
+	
+	
+	public static ZkEmbeddedServer startZkEmbeddedServer() {
+        final ZkEmbeddedServer emb = new ZkEmbeddedServer("zoo.cfg");
+        
+        System.out.println("Starting ZkEmbeddedServer");
+        new Thread() {
+            public void run() {
+                try {
+                    emb.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            };
+        }.start();
+        return emb;
+	}
+
+	
+	
+	public static RestMain startZkRestProxy() {
+	    try {
+	        RestCfg cfg = new RestCfg("zkrest.properties");
+
+	        final RestMain main = new RestMain(cfg);
+	        main.start();
+
+	        Runtime.getRuntime().addShutdownHook(new Thread() {
+	            @Override
+	            public void run() {
+	                main.stop();
+	                System.out.println("Got exit request. Bye.");
+	            }
+	        });
+
+	        System.out.println(cfg.formatEndpoints());
+	        System.out.println("ZK REST Server started.");
+	        return main;
+	    } catch(Exception e) {
+	        throw new RuntimeException(e);
+	    }
+	}
+	
 	
 }

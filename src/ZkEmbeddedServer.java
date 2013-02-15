@@ -12,24 +12,15 @@ public class ZkEmbeddedServer extends QuorumPeerMain {
 
 	private final QuorumPeerConfig config;
 	
-	public ZkEmbeddedServer(String cfgFile) throws ConfigException {
+    public ZkEmbeddedServer(String cfgFile) {
+        try {
+            config = new QuorumPeerConfig();
+            config.parse(cfgFile);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        config = new QuorumPeerConfig();
-        config.parse(cfgFile);
-
-
-		
-		
-//		initializeAndRun(new String[] {cfgFile});
-//		QuorumPeerConfig quorumConfig = new QuorumPeerConfig();
-//		try {
-//			quorumConfig.parse(cfgFile);
-//		} catch(Exception e) {
-//		    throw new RuntimeException(e);
-//		}
-//		serverConfig = new ServerConfig();
-//		serverConfig.readFrom(quorumConfig);
-	}
 	
 	public void start() {
 		try {

@@ -121,7 +121,7 @@ public class RestMain {
     * 
     */
    public static void main(String[] args) throws Exception {
-       RestCfg cfg = new RestCfg("rest.properties");
+       RestCfg cfg = new RestCfg("zkrest.properties");
 
        final RestMain main = new RestMain(cfg);
        main.start();
@@ -134,24 +134,8 @@ public class RestMain {
            }
        });
 
-       printEndpoints(cfg);
-       System.out.println("Server started.");
-   }
-
-   private static void printEndpoints(RestCfg cfg) {
-       int port = cfg.getPort();
-
-       for (Endpoint e : cfg.getEndpoints()) {
-
-           String context = e.getContext();
-           if (context.charAt(context.length() - 1) != '/') {
-               context += "/";
-           }
-
-           System.out.println(String.format(
-                   "Started %s - WADL: http://localhost:%d%sapplication.wadl",
-                   context, port, context));
-       }
+       System.out.println(cfg.formatEndpoints());
+       System.out.println("ZK REST Server started.");
    }
 
 }

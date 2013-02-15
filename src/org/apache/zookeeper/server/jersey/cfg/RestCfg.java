@@ -75,6 +75,23 @@ public class RestCfg {
            count++;
        }
    }
+   
+   
+   
+   public String formatEndpoints() {
+       StringBuilder result = new StringBuilder();
+       for (Endpoint e : this.getEndpoints()) {
+           String context = e.getContext();
+           if (context.charAt(context.length() - 1) != '/') {
+               context += "/";
+           }
+           result.append(String.format("Started %s - WADL: http://localhost:%d%sapplication.wadl",
+                   context, this.getPort(), context));
+       }
+       return result.toString();
+   }
+   
+   
 
    public int getPort() {
        return Integer.parseInt(cfg.getProperty("rest.port", "9998"));
