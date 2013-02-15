@@ -55,10 +55,12 @@ public class RestMain {
 
        boolean useSSL = cfg.useSSL();
        gws = new GrizzlyWebServer(cfg.getPort(), "/tmp/23cxv45345/2131xc2/", useSSL);
-       // BUG: Grizzly needs a doc root if you are going to register multiple adapters
+       //bind to network interface
+       if (cfg.getBindHost() != null) {
+           gws.getSelectorThread().setAddress(InetAddress.getByName(cfg.getBindHost()));
+       }
        
-       //gluczywo: bind to localhost only
-       //gws.getSelectorThread().setAddress(InetAddress.getByName("localhost"));
+       // BUG: Grizzly needs a doc root if you are going to register multiple adapters
 
        for (Endpoint e : cfg.getEndpoints()) {
            ZooKeeperService.mapContext(e.getContext(), e);

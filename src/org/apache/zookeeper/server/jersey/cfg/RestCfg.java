@@ -79,6 +79,10 @@ public class RestCfg {
    public int getPort() {
        return Integer.parseInt(cfg.getProperty("rest.port", "9998"));
    }
+   
+   public String getBindHost() {
+       return cfg.getProperty("rest.host", null);
+   }
 
    public boolean useSSL() {
        return Boolean.valueOf(cfg.getProperty("rest.ssl", "false"));
