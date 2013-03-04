@@ -11,7 +11,12 @@ import zk.node.ZkFolderStringAdapter;
 import zk.node.ZkNode;
 import zk.node.ZkNodeListener;
 
-
+/**
+ * 
+ * To access ZkRestGateway:
+ * http://localhost:9998/znodes/v1/path/to/zkfolder?view=children 
+ *
+ */
 public class ZkTest2 {
 
 	public static void main(String[] args) {
