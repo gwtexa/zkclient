@@ -22,11 +22,12 @@ public class ZkNode implements Watcher, DataCallback {
 		this.zkClient = zkClient;
 		this.path = path;
 		this.zkNodeListener = zkNodeListener;
-		zkClient.registerNode(this);
+		this.zkClient.registerNode(this);
 		//initial watch set
 		setWatch();
 		//try to fetch data async, it may fail if znode does not exists
-		zkClient.getZooKeeper().getData(path, false, this, null);
+		//it will call back processResult()
+		this.zkClient.getZooKeeper().getData(path, false, this, null);
 	}
 
 //	public ZkNode(ZkClient zk, String path) {
@@ -38,7 +39,8 @@ public class ZkNode implements Watcher, DataCallback {
 	}
 	
 	public void setWatch() {
-		//initial watch set
+		//initial watch set. On znode change it will call back DefaultWatcher which will dispatch event
+	    //to this zkNode process() method
 		zkClient.getZooKeeper().exists(path, true, new StatCallback() {
 			@Override
 			public void processResult(int rc, String path, Object ctx, Stat stat) {
@@ -62,6 +64,8 @@ public class ZkNode implements Watcher, DataCallback {
 				//fetch node data and fire ZkNodeListener methods
 				//Stat stat = new Stat();
 				//byte[] b = zkClient.getZooKeeper().getData(path, false, stat);
+			    
+			    //this will call back processResult()
 				zkClient.getZooKeeper().getData(path, false, this, null);
 			}
 		}

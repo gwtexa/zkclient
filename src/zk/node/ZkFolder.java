@@ -59,6 +59,8 @@ public class ZkFolder extends ZkNode implements Watcher, ChildrenCallback {
 		assert(evType != Event.EventType.None);
 			
 		//If zkfolder created we should also setChildrenWatch as the one in constructor probably failed if znode didn't exist
+		//NodeChildrenChanged event occurs when child is created or deleted. It is not triggered when child is modified.
+		//The additional event NodeCreated observes creation of the folder itself.
 		if (evType == Event.EventType.NodeChildrenChanged || evType == Event.EventType.NodeCreated) {
 			setChildrenWatch();
 		}
@@ -90,7 +92,7 @@ public class ZkFolder extends ZkNode implements Watcher, ChildrenCallback {
 							childrenMap.put(child, data);
 							
 							//The code below will not work - let the library user register for children updates manually
-							//We are going to fire childrenPresent() only on children existance change (create, delete)
+							//We are going to fire childrenPresent() only on children existence change (create, delete)
 							
 							//Watch children updates - hard to do 
 //							new ZkNode(zkClient, path + "/" + child, new ZkNodeListener() {
